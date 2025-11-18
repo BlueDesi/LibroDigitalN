@@ -1,0 +1,6 @@
+@LibroDigital_HostAddress = http://localhost:5218
+
+GET {{LibroDigital_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
