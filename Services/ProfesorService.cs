@@ -49,6 +49,8 @@ namespace LibroDigital.Services
             existing.Apellido = profesor.Apellido;
             existing.Dni = profesor.Dni;
             existing.Email = profesor.Email;
+            existing.Activo = profesor.Activo;
+
             await _context.SaveChangesAsync();
             return existing;    
 

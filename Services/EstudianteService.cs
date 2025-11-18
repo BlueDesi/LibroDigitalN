@@ -57,6 +57,8 @@ namespace LibroDigital.Services
             existing.Nombre = Estudiante.Nombre;
             existing.Apellido = Estudiante.Apellido;
             existing.Email = Estudiante.Email;
+            existing.Activo = Estudiante.Activo;
+
             await _context.SaveChangesAsync();
             return existing;
 
