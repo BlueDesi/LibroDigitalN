@@ -14,6 +14,6 @@ namespace LibroDigital.Context
         public DbSet<Estudiante> Estudiantes { get; set; }
         public DbSet<Evento> Eventos { get; set; }
 
-
+        public DbSet<Curso> Cursos { get; set; }
     }
 }

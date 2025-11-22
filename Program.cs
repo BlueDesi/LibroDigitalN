@@ -1,5 +1,6 @@
 using LibroDigital.Context;
 using LibroDigital.Services;
+using LibroDigital.Services.Cursos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -13,6 +14,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<IProfesorService, ProfesorService>();
 builder.Services.AddScoped<IEstudianteService, EstudianteService>();
 builder.Services.AddScoped<IEventoService, EventoService>();
+builder.Services.AddScoped<ICursoService, CursoService>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>

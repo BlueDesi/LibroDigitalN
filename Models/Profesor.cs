@@ -13,6 +13,8 @@ namespace LibroDigital.Models
 
         public string Email { get; set; } = string.Empty;
         public bool Activo { get; set; } = true;
+        public List<Curso> Cursos { get; set; } = new();
+
 
     }
 }
