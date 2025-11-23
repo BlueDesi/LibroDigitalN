@@ -14,7 +14,9 @@ namespace LibroDigital.Models
 
         public bool Activo { get; set; }
         [JsonIgnore]
-        public Profesor? Profesor { get; set; }      
+        public Profesor? Profesor { get; set; }
+        [JsonIgnore]
+        public ICollection<Asistencia> Asistencias { get; set; } = new List<Asistencia>();
 
 
     }

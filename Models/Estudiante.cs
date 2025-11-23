@@ -1,4 +1,6 @@
-﻿namespace LibroDigital.Models
+﻿using System.Text.Json.Serialization;
+
+namespace LibroDigital.Models
 {
     public class Estudiante
     {
@@ -8,6 +10,8 @@
 
         public string Email { get; set; } = string.Empty;
         public bool Activo { get; set; } = true;
+        [JsonIgnore]
+        public ICollection<Asistencia> Asistencias { get; set; }
 
     }
 }
