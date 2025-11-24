@@ -29,6 +29,19 @@ namespace LibroDigital.Services.Asistencias
             if (!await _context.Eventos.AnyAsync(ev => ev.Id == asistencia.EventoId))
                 return ServiceResult<Asistencia>.Fail($"El EventoId {asistencia.EventoId} no existe.");
 
+            bool yaExiste = await _context.Asistencias.AnyAsync(a =>
+                 a.EstudianteId == asistencia.EstudianteId &&
+                    a.CursoId == asistencia.CursoId &&
+                    a.EventoId == asistencia.EventoId &&
+                a.Fecha.Date == asistencia.Fecha.Date
+                );
+
+            if (yaExiste)
+                return ServiceResult<Asistencia>.Fail(
+                    "El estudiante ya fue marcado como presente en este evento/curso en esa fecha."
+                );
+
+            // Crear asistencia
             _context.Asistencias.Add(asistencia);
             await _context.SaveChangesAsync();
 
