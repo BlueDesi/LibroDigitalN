@@ -11,7 +11,7 @@ namespace LibroDigital.Models
         public string Email { get; set; } = string.Empty;
         public bool Activo { get; set; } = true;
         [JsonIgnore]
-        public ICollection<Asistencia> Asistencias { get; set; }
+        public ICollection<Asistencia>? Asistencias { get; set; } = new List<Asistencia>();
 
     }
 }
