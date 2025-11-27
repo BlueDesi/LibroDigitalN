@@ -35,6 +35,9 @@ namespace LibroDigital.Services.EstudiantesCursos
             return await _context.EstudiantesCursos
                 .Include(ec => ec.Estudiante)
                 .Include(ec => ec.Curso)
+                .OrderBy(ec => ec.Curso.Anio)       // Primero por año
+                .ThenBy(ec => ec.Curso.Seccion)     // Luego por sección
+                .ThenBy(ec => ec.Curso.Turno)       // Finalmente por turno
                 .ToListAsync();
         }
 
