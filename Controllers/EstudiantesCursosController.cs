@@ -72,6 +72,27 @@ namespace LibroDigital.Controllers
             if (!deleted) return NotFound();
             return NoContent();
         }
+
+        [HttpGet("profesor/{profesorId}")]
+        public async Task<IActionResult> GetByProfesor(int profesorId)
+        {
+            var resultado = await _service.GetEstudiantesCursosByProfesorAsync(profesorId);
+
+            if (resultado == null || resultado.Count == 0)
+                return NotFound($"No hay estudiantes inscriptos para el profesor {profesorId}");
+
+            return Ok(resultado);
+        }
+      
+        [HttpGet("curso/{cursoId}")]
+        public async Task<ActionResult<List<EstudianteCurso>>> GetByCurso(int cursoId)
+        {
+            var lista = await _service.GetEstudiantesPorCursoAsync(cursoId);
+            return Ok(lista);
+        }
+
+
+
     }
 }
 

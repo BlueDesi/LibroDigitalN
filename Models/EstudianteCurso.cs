@@ -13,11 +13,13 @@ namespace LibroDigital.Models
             [JsonIgnore]
 
             public Curso? Curso { get; set; }
-            [JsonIgnore]
+           // [JsonIgnore]
 
 
             public Estudiante? Estudiante { get; set; }
-            public DateTime? FechaInscripcion { get; set; } 
+            public DateTime? FechaInscripcion { get; set; }
+
+        
 
 
     }

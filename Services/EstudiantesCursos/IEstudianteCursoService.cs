@@ -9,5 +9,10 @@ namespace LibroDigital.Services.EstudiantesCursos
         Task<EstudianteCurso> CreateEstudianteCursoAsync(EstudianteCurso estudiantecurso);
         Task<EstudianteCurso?> UpdateEstudianteCursoAsync(int id, EstudianteCurso estudiantecurso);
         Task<bool> DeleteEstudianteCursoAsync(int id);
+        Task<List<EstudianteCurso>> GetEstudiantesCursosByProfesorAsync(int profesorId);
+        Task<List<EstudianteCurso>> GetEstudiantesCursosByCursoAsync(int cursoId);
+        Task<List<EstudianteCurso>> GetEstudiantesPorCursoAsync(int cursoId);
+
+
     }
 }

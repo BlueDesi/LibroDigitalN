@@ -35,9 +35,9 @@ namespace LibroDigital.Services.EstudiantesCursos
             return await _context.EstudiantesCursos
                 .Include(ec => ec.Estudiante)
                 .Include(ec => ec.Curso)
-                .OrderBy(ec => ec.Curso.Anio)       // Primero por año
-                .ThenBy(ec => ec.Curso.Seccion)     // Luego por sección
-                .ThenBy(ec => ec.Curso.Turno)       // Finalmente por turno
+                .OrderBy(ec => ec.Curso.Anio)       
+                .ThenBy(ec => ec.Curso.Seccion)     
+                .ThenBy(ec => ec.Curso.Turno)       
                 .ToListAsync();
         }
 
@@ -76,6 +76,34 @@ namespace LibroDigital.Services.EstudiantesCursos
             _context.EstudiantesCursos.Remove(existing);
             await _context.SaveChangesAsync();
             return true;
+        }
+        public async Task<List<EstudianteCurso>> GetEstudiantesCursosByProfesorAsync(int profesorId)
+        {
+            return await _context.EstudiantesCursos
+                .Include(ec => ec.Estudiante)
+                .Include(ec => ec.Curso)
+                .Where(ec => ec.Curso.ProfesorId == profesorId)    // FILTRO CLAVE
+                .OrderBy(ec => ec.Curso.Anio)
+                .ThenBy(ec => ec.Curso.Seccion)
+                .ThenBy(ec => ec.Curso.Turno)
+                .ToListAsync();
+        }
+
+        public async Task<List<EstudianteCurso>> GetEstudiantesCursosByCursoAsync(int cursoId)
+        {
+            return await _context.EstudiantesCursos
+                .Include(ec => ec.Estudiante)
+                .Where(ec => ec.CursoId == cursoId)
+                .ToListAsync();
+        }
+
+        
+        public async Task<List<EstudianteCurso>> GetEstudiantesPorCursoAsync(int cursoId)
+        {
+            return await _context.EstudiantesCursos
+                .Include(ec => ec.Estudiante)  // ⚡ Esto es clave
+                .Where(ec => ec.CursoId == cursoId)
+                .ToListAsync();
         }
     }
 }

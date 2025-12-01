@@ -2,6 +2,7 @@
 using LibroDigital.Services;
 using LibroDigital.Services.Cursos;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace LibroDigital.Controllers
 {
@@ -64,6 +65,13 @@ namespace LibroDigital.Controllers
             var deleted = await _service.DeleteCursoAsync(id);
             if (!deleted) return NotFound();
             return NoContent();
+        }
+
+        [HttpGet("profesor/{profesorId}")]
+        public async Task<ActionResult<List<Curso>>> GetCursosPorProfesor(int profesorId)
+        {
+            var cursos = await _service.GetCursosByProfesorAsync(profesorId);
+            return Ok(cursos);
         }
     }
 

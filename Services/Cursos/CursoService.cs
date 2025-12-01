@@ -27,15 +27,21 @@ namespace LibroDigital.Services.Cursos
             return curso;
 
         }
+            public async Task<List<Curso>> GetCursosByProfesorAsync(int profesorId) =>
+            await _context.Cursos
+          .Where(c => c.ProfesorId == profesorId && c.Activo)
+          .ToListAsync();
 
-            public async Task<Curso?> GetCursoByIdAsync(int id)
+
+
+        public async Task<Curso?> GetCursoByIdAsync(int id)
             {
                 return await _context.Cursos.FindAsync(id);
 
 
             }
-
-            public async Task<bool> DeleteCursoAsync(int id)
+      
+        public async Task<bool> DeleteCursoAsync(int id)
             {
                 var curso = await _context.Cursos.FindAsync(id);
                 if (curso == null) return false;
