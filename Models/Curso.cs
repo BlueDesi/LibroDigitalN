@@ -1,4 +1,6 @@
-﻿using System.Text.Json.Serialization;
+﻿using LibroDigital.Enums;
+using System.Text.Json.Serialization;
+
 
 namespace LibroDigital.Models
 {
@@ -13,10 +15,12 @@ namespace LibroDigital.Models
         public int ProfesorId { get; set; }
 
         public bool Activo { get; set; }
-        [JsonIgnore]
+       
         public Profesor? Profesor { get; set; }
         [JsonIgnore]
         public ICollection<Asistencia> Asistencias { get; set; } = new List<Asistencia>();
+        public DiaSemana DiaClase { get; set; } =DiaSemana.Lunes; // valor por defecto
+
 
 
     }

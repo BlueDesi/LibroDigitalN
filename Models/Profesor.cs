@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace LibroDigital.Models
 {
@@ -13,6 +14,7 @@ namespace LibroDigital.Models
 
         public string Email { get; set; } = string.Empty;
         public bool Activo { get; set; } = true;
+        [JsonIgnore]
         public List<Curso> Cursos { get; set; } = new();
 
 

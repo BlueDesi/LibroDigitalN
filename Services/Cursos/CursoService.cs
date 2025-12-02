@@ -6,17 +6,14 @@ namespace LibroDigital.Services.Cursos
 {
     public class CursoService : ICursoService
     {
+        private readonly AppDbContext _context;
+        public CursoService(AppDbContext context)
+        {
+            _context = context;
+        }
 
-        
-
-
-            private readonly AppDbContext _context;
-            public CursoService(AppDbContext context)
-            {
-                _context = context;
-            }
-            public async Task<Curso> CreateCursoAsync(Curso curso)
-            {
+        public async Task<Curso> CreateCursoAsync(Curso curso)
+        {
             var profesorExiste = await _context.Profesores.AnyAsync(p => p.Id == curso.ProfesorId);
             if (!profesorExiste)
                 throw new ArgumentException($"No existe un Profesor con Id = {curso.ProfesorId}");
@@ -25,58 +22,55 @@ namespace LibroDigital.Services.Cursos
             await _context.SaveChangesAsync();
 
             return curso;
-
         }
-            public async Task<List<Curso>> GetCursosByProfesorAsync(int profesorId) =>
-            await _context.Cursos
-          .Where(c => c.ProfesorId == profesorId && c.Activo)
-          .ToListAsync();
 
-
+        public async Task<List<Curso>> GetAllCursosAsync()
+        {
+            return await _context.Cursos
+                                 .Include(c => c.Profesor) // <- Carga el profesor
+                                 .ToListAsync();
+        }
 
         public async Task<Curso?> GetCursoByIdAsync(int id)
-            {
-                return await _context.Cursos.FindAsync(id);
+        {
+            return await _context.Cursos
+                                 .Include(c => c.Profesor) // <- Carga el profesor
+                                 .FirstOrDefaultAsync(c => c.Id == id);
+        }
 
+        public async Task<List<Curso>> GetCursosByProfesorAsync(int profesorId)
+        {
+            return await _context.Cursos
+                                 .Include(c => c.Profesor) // <- Carga el profesor
+                                 .Where(c => c.ProfesorId == profesorId && c.Activo)
+                                 .ToListAsync();
+        }
 
-            }
-      
+        public async Task<Curso?> UpdateCursoAsync(int id, Curso curso)
+        {
+            var existing = await _context.Cursos.FindAsync(id);
+            if (existing == null) return null;
+
+            existing.Turno = curso.Turno;
+            existing.Anio = curso.Anio;
+            existing.Seccion = curso.Seccion;
+            existing.Nombre = curso.Nombre;
+            existing.ProfesorId = curso.ProfesorId;
+            existing.Activo = curso.Activo;
+            existing.DiaClase = curso.DiaClase;
+
+            await _context.SaveChangesAsync();
+            return existing;
+        }
+
         public async Task<bool> DeleteCursoAsync(int id)
-            {
-                var curso = await _context.Cursos.FindAsync(id);
-                if (curso == null) return false;
-                _context.Cursos.Remove(curso);
-                await _context.SaveChangesAsync();
-                return true;
+        {
+            var curso = await _context.Cursos.FindAsync(id);
+            if (curso == null) return false;
 
-            }
-
-            public async Task<List<Curso>> GetAllCursosAsync()
-            {
-                return await _context.Cursos.ToListAsync();
-            }
-
-           
-
-            public async Task<Curso?> UpdateCursoAsync(int id, Curso curso)
-            {
-                var existing = await _context.Cursos.FindAsync(id);
-                if (existing == null) return null;
-                existing.Turno = curso.Turno;
-                existing.Anio = curso.Anio;
-                existing.Anio = curso.Anio;
-                existing.Seccion = curso.Seccion;
-                existing.Seccion = curso.Seccion;
-                existing.Nombre = curso.Nombre;
-                existing.ProfesorId = curso.ProfesorId;
-                existing.Activo = curso.Activo;
-
-
-
-                await _context.SaveChangesAsync();
-                return existing;
-
-            }
+            _context.Cursos.Remove(curso);
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
-
+}
